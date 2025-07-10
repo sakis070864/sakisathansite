@@ -21,7 +21,7 @@
     <style>
         /* --- General & Reset --- */
         :root {
-            /* NEW: Dark Blue Color Palette */
+            /* Dark Blue Color Palette */
             --primary-color: #004080;   /* A strong, professional blue */
             --secondary-color: #0059B3;  /* A slightly brighter blue for gradients */
             --dark-bg: #0A192F;         /* A very dark navy, almost black */
@@ -108,7 +108,7 @@
         
         .main-header.scrolled {
             position: fixed;
-            background-color: rgba(10, 25, 47, 0.85); /* Updated to match new dark-bg */
+            background-color: rgba(10, 25, 47, 0.85);
             backdrop-filter: blur(10px);
             animation: slideDown 0.5s ease-out;
         }
@@ -163,7 +163,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-            opacity: 0.1; /* Reduced opacity for subtlety */
+            opacity: 0.1;
         }
         
         .hero-content {
@@ -209,7 +209,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid var(--primary-color);
-            box-shadow: 0 0 30px rgba(0, 64, 128, 0.7); /* Updated shadow color */
+            box-shadow: 0 0 30px rgba(0, 64, 128, 0.7);
         }
 
 
@@ -226,7 +226,7 @@
             background: var(--dark-bg);
             padding: 2.5rem 2rem;
             border-radius: 10px;
-            border: 1px solid #172A46; /* Updated border */
+            border: 1px solid #172A46;
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .service-card:hover {
@@ -256,7 +256,7 @@
             background: var(--medium-bg);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #172A46; /* Updated border */
+            border: 1px solid #172A46;
             display: flex;
             flex-direction: column;
         }
@@ -316,7 +316,7 @@
             background: var(--medium-bg);
             padding: 3rem;
             border-radius: 10px;
-            border: 1px solid #172A46; /* Updated border */
+            border: 1px solid #172A46;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -331,7 +331,7 @@
             width: 100%;
             padding: 1rem;
             border-radius: 5px;
-            border: 1px solid #0A192F; /* Updated border */
+            border: 1px solid #0A192F;
             background: var(--dark-bg);
             color: var(--light-text);
             font-family: 'Poppins', sans-serif;
@@ -362,7 +362,7 @@
             text-align: center;
             padding: 2rem 0;
             background: var(--dark-bg);
-            border-top: 1px solid #172A46; /* Updated border */
+            border-top: 1px solid #172A46;
             color: var(--medium-text);
         }
 
@@ -417,7 +417,7 @@
             transition: all 0.3s ease;
             transform-origin: bottom right;
             z-index: 999;
-            border: 1px solid #172A46; /* Updated border */
+            border: 1px solid #172A46;
         }
         
         .show-chatbot .chatbot {
@@ -470,38 +470,22 @@
             color: #fff;
             border-bottom-right-radius: 0;
         }
-        .typing-indicator-container {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1rem;
-        }
-        .typing-indicator span {
-             width: 8px;
-             height: 8px;
-             background-color: var(--medium-text);
-             border-radius: 50%;
-             margin: 0 2px;
-             animation: bounce 1s infinite;
-        }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
         
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        .chat.thinking p {
+            color: var(--medium-text);
+            font-style: italic;
         }
-
 
         .chat-input {
             display: flex;
             gap: 5px;
             padding: 1rem;
-            border-top: 1px solid #172A46; /* Updated border */
+            border-top: 1px solid #172A46;
         }
         .chat-input textarea {
             flex-grow: 1;
             height: 55px;
-            border: 1px solid #172A46; /* Updated border */
+            border: 1px solid #172A46;
             border-radius: 5px;
             padding: 1rem;
             background: var(--dark-bg);
@@ -814,12 +798,13 @@
         
         const API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
-        const addMessageToChatbox = (message, className) => {
+        const addMessageToChatbox = (message, classNames) => {
             const chatLi = document.createElement("li");
-            chatLi.classList.add("chat", className);
+            // FIX: Split the classNames string and add each class individually
+            classNames.split(' ').forEach(cls => chatLi.classList.add(cls));
             
             const p = document.createElement("p");
-            if (className === 'outgoing') {
+            if (classNames.includes('outgoing')) {
                 p.textContent = message;
             } else {
                 p.innerHTML = message;
@@ -830,26 +815,18 @@
             chatbox.scrollTo(0, chatbox.scrollHeight);
         }
         
-        const showTypingIndicator = () => {
-            const typingHTML = `
-                <li class="chat incoming typing-indicator">
-                    <div class="typing-indicator-container">
-                        <div class="typing-indicator">
-                            <span></span><span></span><span></span>
-                        </div>
-                    </div>
-                </li>`;
-            chatbox.insertAdjacentHTML('beforeend', typingHTML);
-            chatbox.scrollTo(0, chatbox.scrollHeight);
+        const showThinkingIndicator = () => {
+            // Use a single class for the indicator for simplicity
+            addMessageToChatbox("<i>AI Assistant is thinking...</i>", "chat incoming thinking");
         }
 
-        const hideTypingIndicator = () => {
-            const indicator = chatbox.querySelector(".typing-indicator");
+        const hideThinkingIndicator = () => {
+            const indicator = chatbox.querySelector(".thinking");
             if (indicator) indicator.remove();
         }
 
         const getBotResponse = async (userMessage) => {
-            showTypingIndicator();
+            showThinkingIndicator();
             try {
                 const response = await fetch(API_ENDPOINT, {
                     method: "POST",
@@ -863,7 +840,7 @@
 
                 const data = await response.json();
 
-                hideTypingIndicator();
+                hideThinkingIndicator();
 
                 if (!response.ok) {
                     const serverError = data.error || `The server responded with an unexpected status: ${response.status}.`;
@@ -874,12 +851,12 @@
                     ? data.reply 
                     : "Sorry, I received an unexpected response from the server.";
                 
-                addMessageToChatbox(reply, "incoming");
+                addMessageToChatbox(reply, "chat incoming");
 
             } catch (error) {
-                hideTypingIndicator();
+                hideThinkingIndicator();
                 const errorMessage = `<strong>Error:</strong><br>${error.message}`;
-                addMessageToChatbox(errorMessage, "incoming");
+                addMessageToChatbox(errorMessage, "chat incoming");
                 console.error('Chatbot Error:', error);
             }
         }
@@ -891,7 +868,7 @@
             chatInput.value = "";
             chatInput.style.height = `55px`;
 
-            addMessageToChatbox(userMessage, "outgoing");
+            addMessageToChatbox(userMessage, "chat outgoing");
             
             setTimeout(() => {
                 getBotResponse(userMessage);
@@ -916,4 +893,3 @@
     </script>
 </body>
 </html>
-
