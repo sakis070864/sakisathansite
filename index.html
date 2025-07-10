@@ -794,7 +794,7 @@
         });
         
 
-        // --- Chatbot Logic --- //
+        // --- REWRITTEN CHATBOT SCRIPT FOR STABILITY --- //
         const chatbotToggler = document.querySelector(".chatbot-toggler");
         const chatInput = document.querySelector(".chat-input textarea");
         const sendChatBtn = document.querySelector(".chat-input #send-btn");
@@ -802,13 +802,12 @@
         
         const API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
-        // FIX: Rewritten to be more stable and avoid script crashes
-        const createChatLi = (message, className) => {
+        const addMessageToChatbox = (message, className) => {
             const chatLi = document.createElement("li");
             chatLi.classList.add("chat", className);
             
             const p = document.createElement("p");
-            // Use textContent for user messages to prevent HTML injection
+            // Use textContent for user-generated messages to prevent script injection
             // Use innerHTML for bot messages to allow for formatting like <strong>
             if (className === 'outgoing') {
                 p.textContent = message;
@@ -817,30 +816,31 @@
             }
             
             chatLi.appendChild(p);
-            return chatLi;
+            chatbox.appendChild(chatLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
         }
         
         const showTypingIndicator = () => {
-            const typingLi = document.createElement("li");
-            typingLi.classList.add("chat", "incoming", "typing-indicator");
-            typingLi.innerHTML = `
-                <div class="typing-indicator-container">
-                    <div class="typing-indicator">
-                        <span></span><span></span><span></span>
+            const typingHTML = `
+                <li class="chat incoming typing-indicator">
+                    <div class="typing-indicator-container">
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
+                        </div>
                     </div>
-                </div>`;
-            chatbox.appendChild(typingLi);
+                </li>`;
+            // Use innerHTML to add the typing indicator
+            chatbox.insertAdjacentHTML('beforeend', typingHTML);
             chatbox.scrollTo(0, chatbox.scrollHeight);
         }
 
         const hideTypingIndicator = () => {
             const indicator = chatbox.querySelector(".typing-indicator");
-            if (indicator) indicator.parentElement.parentElement.remove();
+            if (indicator) indicator.remove();
         }
 
-        const generateResponse = async (userMessage) => {
+        const getBotResponse = async (userMessage) => {
             showTypingIndicator();
-
             try {
                 const response = await fetch(API_ENDPOINT, {
                     method: "POST",
@@ -852,61 +852,61 @@
                     })
                 });
 
-                hideTypingIndicator();
-
                 const data = await response.json();
 
                 if (!response.ok) {
                     // If the server sends an error, it might have a message in the `error` field
-                    const serverError = data.error || `The server responded with status ${response.status}.`;
+                    const serverError = data.error || `The server responded with an unexpected status: ${response.status}.`;
                     throw new Error(serverError);
                 }
                 
-                const responseMessage = (data && typeof data.reply === 'string') 
+                const reply = (data && typeof data.reply === 'string') 
                     ? data.reply 
                     : "Sorry, I received an unexpected response from the server.";
                 
-                chatbox.appendChild(createChatLi(responseMessage, "incoming"));
+                hideTypingIndicator();
+                addMessageToChatbox(reply, "incoming");
 
             } catch (error) {
                 hideTypingIndicator();
                 // Display a user-friendly error message in the chat
                 const errorMessage = `<strong>Error:</strong><br>${error.message}`;
-                chatbox.appendChild(createChatLi(errorMessage, "incoming"));
+                addMessageToChatbox(errorMessage, "incoming");
                 console.error('Chatbot Error:', error);
-            } finally {
-                chatbox.scrollTo(0, chatbox.scrollHeight);
             }
         }
 
-        const handleChat = () => {
+        const handleUserMessage = () => {
             const userMessage = chatInput.value.trim();
             if(!userMessage) return;
+            
             chatInput.value = "";
             chatInput.style.height = `55px`;
 
-            chatbox.appendChild(createChatLi(userMessage, "outgoing"));
-            chatbox.scrollTo(0, chatbox.scrollHeight);
+            addMessageToChatbox(userMessage, "outgoing");
             
+            // Get bot response after a short delay
             setTimeout(() => {
-                generateResponse(userMessage);
+                getBotResponse(userMessage);
             }, 600);
         }
         
         chatInput.addEventListener("input", () => {
+            // Auto-resize textarea
             chatInput.style.height = `55px`;
             chatInput.style.height = `${chatInput.scrollHeight}px`;
         });
         
         chatInput.addEventListener("keydown", (e) => {
-            if(e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+            // Send message on Enter key, but not Shift+Enter
+            if(e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                handleChat();
+                handleUserMessage();
             }
         });
 
         chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
-        sendChatBtn.addEventListener("click", handleChat);
+        sendChatBtn.addEventListener("click", handleUserMessage);
     });
     </script>
 </body>
