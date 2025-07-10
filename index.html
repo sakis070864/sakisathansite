@@ -252,13 +252,52 @@
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
+        
+        /* NEW: Keyframes for the rotating border */
+        @keyframes rotate-glow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* NEW: Wrapper for the animated border effect */
+        .portfolio-item-wrapper {
+            position: relative;
+            z-index: 1;
+            border-radius: 12px; /* Slightly larger than the item's border-radius */
+            overflow: hidden;
+            padding: 2px; /* The thickness of the border */
+        }
+
+        .portfolio-item-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%; /* Make the gradient large enough to spin */
+            height: 200%;
+            z-index: -1;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent-color),
+                var(--secondary-color),
+                var(--primary-color),
+                var(--accent-color)
+            );
+            transform-origin: center;
+            transform: translate(-50%, -50%);
+            animation: rotate-glow 4s linear infinite;
+        }
+
         .portfolio-item {
             background: var(--medium-bg);
             border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #172A46;
             display: flex;
             flex-direction: column;
+            height: 100%; /* Ensure it fills the wrapper */
         }
         .portfolio-item-content {
             padding: 1.5rem;
@@ -621,18 +660,24 @@
             <h2>My Work</h2>
             <p class="section-subtitle">Here are a couple of public-facing examples of my work. Many of my most powerful solutions are private systems built for specific client operations.</p>
             <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-item-content">
-                        <h3>EuroLaw - EU Legal Assistant</h3>
-                        <p>An AI-powered tool designed for legal professionals to navigate and query European Union law efficiently. It demonstrates my ability to work with complex, domain-specific data.</p>
-                        <a href="https://eurolaw.netlify.app/" target="_blank">View Project &rarr;</a>
+                <!-- NEW: Added wrapper div for the animation -->
+                <div class="portfolio-item-wrapper">
+                    <div class="portfolio-item">
+                        <div class="portfolio-item-content">
+                            <h3>EuroLaw - EU Legal Assistant</h3>
+                            <p>An AI-powered tool designed for legal professionals to navigate and query European Union law efficiently. It demonstrates my ability to work with complex, domain-specific data.</p>
+                            <a href="https://eurolaw.netlify.app/" target="_blank">View Project &rarr;</a>
+                        </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-item-content">
-                        <h3>Legal Intake Dashboard</h3>
-                        <p>A proof-of-concept dashboard for law firms to manage new cases and client intake. This showcases my skills in creating functional and user-friendly interfaces for business processes.</p>
-                        <a href="https://newcase.netlify.app/" target="_blank">View Project &rarr;</a>
+                <!-- NEW: Added wrapper div for the animation -->
+                <div class="portfolio-item-wrapper">
+                    <div class="portfolio-item">
+                        <div class="portfolio-item-content">
+                            <h3>Legal Intake Dashboard</h3>
+                            <p>A proof-of-concept dashboard for law firms to manage new cases and client intake. This showcases my skills in creating functional and user-friendly interfaces for business processes.</p>
+                            <a href="https://newcase.netlify.app/" target="_blank">View Project &rarr;</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -800,7 +845,6 @@
         
         const addMessageToChatbox = (message, classNames) => {
             const chatLi = document.createElement("li");
-            // FIX: Split the classNames string and add each class individually
             classNames.split(' ').forEach(cls => chatLi.classList.add(cls));
             
             const p = document.createElement("p");
@@ -816,7 +860,6 @@
         }
         
         const showThinkingIndicator = () => {
-            // Use a single class for the indicator for simplicity
             addMessageToChatbox("<i>AI Assistant is thinking...</i>", "chat incoming thinking");
         }
 
