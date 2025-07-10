@@ -366,6 +366,17 @@
         }
 
         /* --- Chatbot Widget --- */
+        
+        /* NEW: Keyframes for the hopping animation */
+        @keyframes hop {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px); /* Move up by 15px */
+            }
+        }
+        
         .chatbot-toggler {
             position: fixed;
             bottom: 30px;
@@ -382,12 +393,15 @@
             justify-content: center;
             font-size: 2.5rem;
             z-index: 1000;
-            transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            /* NEW: Apply the hopping animation */
+            animation: hop 1.5s infinite ease-in-out;
+            transition: transform 0.2s;
         }
+        
         .chatbot-toggler:hover {
+            /* Keep the animation running, but scale up slightly on hover */
             transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(142, 45, 226, 0.5);
         }
         
         .chatbot {
@@ -807,8 +821,6 @@
             chatLi.classList.add("chat", className);
             
             const p = document.createElement("p");
-            // Use textContent for user-generated messages to prevent script injection
-            // Use innerHTML for bot messages to allow for formatting like <strong>
             if (className === 'outgoing') {
                 p.textContent = message;
             } else {
@@ -829,7 +841,6 @@
                         </div>
                     </div>
                 </li>`;
-            // Use innerHTML to add the typing indicator
             chatbox.insertAdjacentHTML('beforeend', typingHTML);
             chatbox.scrollTo(0, chatbox.scrollHeight);
         }
@@ -854,8 +865,9 @@
 
                 const data = await response.json();
 
+                hideTypingIndicator();
+
                 if (!response.ok) {
-                    // If the server sends an error, it might have a message in the `error` field
                     const serverError = data.error || `The server responded with an unexpected status: ${response.status}.`;
                     throw new Error(serverError);
                 }
@@ -864,12 +876,10 @@
                     ? data.reply 
                     : "Sorry, I received an unexpected response from the server.";
                 
-                hideTypingIndicator();
                 addMessageToChatbox(reply, "incoming");
 
             } catch (error) {
                 hideTypingIndicator();
-                // Display a user-friendly error message in the chat
                 const errorMessage = `<strong>Error:</strong><br>${error.message}`;
                 addMessageToChatbox(errorMessage, "incoming");
                 console.error('Chatbot Error:', error);
@@ -885,20 +895,17 @@
 
             addMessageToChatbox(userMessage, "outgoing");
             
-            // Get bot response after a short delay
             setTimeout(() => {
                 getBotResponse(userMessage);
             }, 600);
         }
         
         chatInput.addEventListener("input", () => {
-            // Auto-resize textarea
             chatInput.style.height = `55px`;
             chatInput.style.height = `${chatInput.scrollHeight}px`;
         });
         
         chatInput.addEventListener("keydown", (e) => {
-            // Send message on Enter key, but not Shift+Enter
             if(e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 handleUserMessage();
