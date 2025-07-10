@@ -253,58 +253,53 @@
             gap: 2rem;
         }
         
-        /* NEW: Keyframes for the rotating border */
-        @keyframes rotate-glow {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* NEW: Wrapper for the animated border effect */
-        .portfolio-item-wrapper {
-            position: relative;
-            z-index: 1;
-            border-radius: 12px; /* Slightly larger than the item's border-radius */
-            overflow: hidden;
-            padding: 2px; /* The thickness of the border */
-        }
-
-        .portfolio-item-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%; /* Make the gradient large enough to spin */
-            height: 200%;
-            z-index: -1;
-            background: conic-gradient(
-                from 0deg,
-                var(--accent-color),
-                var(--secondary-color),
-                var(--primary-color),
-                var(--accent-color)
-            );
-            transform-origin: center;
-            transform: translate(-50%, -50%);
-            animation: rotate-glow 4s linear infinite;
+        /* NEW: Keyframes for the flowing gradient */
+        @keyframes flowing-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .portfolio-item {
+            position: relative;
             background: var(--medium-bg);
             border-radius: 10px;
             display: flex;
             flex-direction: column;
-            height: 100%; /* Ensure it fills the wrapper */
+            height: 100%;
+            padding: 2px; /* This will be the border thickness */
+            overflow: hidden;
+            z-index: 1;
         }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -2px; /* Match the padding */
+            border-radius: inherit; /* Inherit the border-radius */
+            background: linear-gradient(
+                90deg,
+                var(--primary-color),
+                var(--accent-color),
+                var(--secondary-color),
+                var(--primary-color)
+            );
+            background-size: 400% 400%;
+            animation: flowing-gradient 8s ease infinite;
+        }
+        
         .portfolio-item-content {
+            background: var(--medium-bg);
+            border-radius: 8px; /* Slightly smaller than the parent */
             padding: 1.5rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
+
         .portfolio-item h3 {
             color: var(--accent-color);
             font-size: 1.4rem;
@@ -660,24 +655,19 @@
             <h2>My Work</h2>
             <p class="section-subtitle">Here are a couple of public-facing examples of my work. Many of my most powerful solutions are private systems built for specific client operations.</p>
             <div class="portfolio-grid">
-                <!-- NEW: Added wrapper div for the animation -->
-                <div class="portfolio-item-wrapper">
-                    <div class="portfolio-item">
-                        <div class="portfolio-item-content">
-                            <h3>EuroLaw - EU Legal Assistant</h3>
-                            <p>An AI-powered tool designed for legal professionals to navigate and query European Union law efficiently. It demonstrates my ability to work with complex, domain-specific data.</p>
-                            <a href="https://eurolaw.netlify.app/" target="_blank">View Project &rarr;</a>
-                        </div>
+                <!-- NEW: HTML structure simplified -->
+                <div class="portfolio-item">
+                    <div class="portfolio-item-content">
+                        <h3>EuroLaw - EU Legal Assistant</h3>
+                        <p>An AI-powered tool designed for legal professionals to navigate and query European Union law efficiently. It demonstrates my ability to work with complex, domain-specific data.</p>
+                        <a href="https://eurolaw.netlify.app/" target="_blank">View Project &rarr;</a>
                     </div>
                 </div>
-                <!-- NEW: Added wrapper div for the animation -->
-                <div class="portfolio-item-wrapper">
-                    <div class="portfolio-item">
-                        <div class="portfolio-item-content">
-                            <h3>Legal Intake Dashboard</h3>
-                            <p>A proof-of-concept dashboard for law firms to manage new cases and client intake. This showcases my skills in creating functional and user-friendly interfaces for business processes.</p>
-                            <a href="https://newcase.netlify.app/" target="_blank">View Project &rarr;</a>
-                        </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-item-content">
+                        <h3>Legal Intake Dashboard</h3>
+                        <p>A proof-of-concept dashboard for law firms to manage new cases and client intake. This showcases my skills in creating functional and user-friendly interfaces for business processes.</p>
+                        <a href="https://newcase.netlify.app/" target="_blank">View Project &rarr;</a>
                     </div>
                 </div>
             </div>
