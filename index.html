@@ -443,6 +443,7 @@
             background: var(--medium-bg);
             font-size: 0.95rem;
             white-space: pre-wrap; /* To respect newlines from API */
+            word-wrap: break-word;
         }
         .chatbox .incoming p {
             background: var(--medium-bg);
@@ -509,6 +510,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0;
         }
         .chat-input #send-btn:hover {
             background: var(--secondary-color);
@@ -714,7 +716,7 @@
         </ul>
         <div class="chat-input">
             <textarea placeholder="Ask a question..." required></textarea>
-            <span id="send-btn"><i class="fa-solid fa-paper-plane"></i></span>
+            <button id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -743,7 +745,6 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            // IMPORTANT: Replace "YOUR_ACCESS_KEY_HERE" in the hidden input field in the HTML
             const accessKeyInput = form.querySelector('input[name="access_key"]');
             if (accessKeyInput.value === "YOUR_ACCESS_KEY_HERE") {
                 formStatus.textContent = "Please configure the form access key.";
@@ -799,17 +800,14 @@
         const sendChatBtn = document.querySelector(".chat-input #send-btn");
         const chatbox = document.querySelector(".chatbox");
         
-        let userMessage;
-        
-        // ! IMPORTANT !
-        // ! Replace this with the public URL of your Render.com backend service.
-        const API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat"; // <--- REPLACE THIS URL IF DIFFERENT
+        const API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
         const createChatLi = (message, className) => {
             const chatLi = document.createElement("li");
             chatLi.classList.add("chat", className);
-            let chatContent = `<p>${message}</p>`;
-            chatLi.innerHTML = chatContent;
+            const p = document.createElement("p");
+            p.innerHTML = message;
+            chatLi.appendChild(p);
             return chatLi;
         }
         
@@ -831,50 +829,56 @@
             if (indicator) indicator.parentElement.parentElement.remove();
         }
 
-        const generateResponse = () => {
-            const requestOptions = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: userMessage
-                })
-            };
-
-            // Acknowledge the potential delay from Render's free tier
-            const firstRequest = !sessionStorage.getItem('firstRequestDone');
-            if (firstRequest) {
-                 const warningLi = createChatLi("Note: My backend is on a free instance and may take up to 50 seconds to respond if it has been inactive. Please be patient on the first request.", "incoming");
-                 chatbox.appendChild(warningLi);
-                 sessionStorage.setItem('firstRequestDone', 'true');
-            }
-            
+        const generateResponse = async (userMessage) => {
             showTypingIndicator();
 
-            fetch(API_ENDPOINT, requestOptions)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    hideTypingIndicator();
-                    const responseMessage = data.reply || "I seem to have lost my train of thought. Could you ask again?";
-                    chatbox.appendChild(createChatLi(responseMessage, "incoming"));
-                }).catch((error) => {
-                    hideTypingIndicator();
-                    const errorLi = createChatLi("Oops! Something went wrong. My connection to the server failed. Please try again later or contact Sakis directly via the form.", "incoming");
-                    chatbox.appendChild(errorLi);
-                    console.error('Chatbot API Error:', error);
-                }).finally(() => {
-                    chatbox.scrollTo(0, chatbox.scrollHeight);
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: userMessage
+                    })
                 });
+
+                hideTypingIndicator();
+
+                if (!response.ok) {
+                    // Handle HTTP errors like 400, 404, 500
+                    let errorMessage;
+                    if (response.status === 400) {
+                        errorMessage = "<strong>Error: Bad Request (400)</strong><br>The server reported that the request was invalid. This usually means the data format sent from the chatbot doesn't match what the server expects. Please check the server logs on Render.com for more details.";
+                    } else if (response.status === 404) {
+                        errorMessage = "<strong>Error: Not Found (404)</strong><br>The chatbot server couldn't find the requested URL. Please check that the `API_ENDPOINT` in the script is correct.";
+                    } else if (response.status === 500) {
+                        errorMessage = "<strong>Error: Server Error (500)</strong><br>The chatbot server encountered an internal error. Please check the server logs on Render.com for details.";
+                    } else {
+                        errorMessage = `<strong>Error: ${response.status}</strong><br>The server responded with an unexpected status.`;
+                    }
+                    chatbox.appendChild(createChatLi(errorMessage, "incoming"));
+                    console.error('Server responded with status:', response.status);
+                    return; // Stop execution
+                }
+
+                const data = await response.json();
+                const responseMessage = data.reply || "I seem to have lost my train of thought. Could you ask again?";
+                chatbox.appendChild(createChatLi(responseMessage, "incoming"));
+
+            } catch (error) {
+                // Handle network errors (e.g., server is down, CORS issue)
+                hideTypingIndicator();
+                const errorMessage = "<strong>Connection Error</strong><br>Oops! I couldn't connect to the chatbot server. This could be a CORS issue on your backend, or the server might be down. Please check the browser's console (F12) for more details.";
+                chatbox.appendChild(createChatLi(errorMessage, "incoming"));
+                console.error('Fetch API Error:', error);
+            } finally {
+                chatbox.scrollTo(0, chatbox.scrollHeight);
+            }
         }
 
         const handleChat = () => {
-            userMessage = chatInput.value.trim();
+            const userMessage = chatInput.value.trim();
             if(!userMessage) return;
             chatInput.value = "";
             chatInput.style.height = `55px`;
@@ -883,12 +887,11 @@
             chatbox.scrollTo(0, chatbox.scrollHeight);
             
             setTimeout(() => {
-                generateResponse();
+                generateResponse(userMessage);
             }, 600);
         }
         
         chatInput.addEventListener("input", () => {
-            // Adjust textarea height dynamically
             chatInput.style.height = `55px`;
             chatInput.style.height = `${chatInput.scrollHeight}px`;
         });
