@@ -253,7 +253,6 @@
             gap: 2rem;
         }
         
-        /* UPDATED: Keyframes for the lightning effect */
         @keyframes lightning-border {
             0% {
                 transform: rotate(0deg);
@@ -548,6 +547,42 @@
         .chat-input #send-btn:hover {
             background: var(--secondary-color);
         }
+
+        /* --- NEW: Cookie Banner --- */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--medium-bg);
+            padding: 1.2rem 0;
+            z-index: 1001;
+            border-top: 1px solid #0A192F;
+            transform: translateY(100%);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .cookie-banner.show {
+            transform: translateY(0);
+        }
+
+        .cookie-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cookie-content p {
+            margin: 0;
+            color: var(--medium-text);
+            font-size: 0.9rem;
+        }
+        
+        .cookie-content .btn {
+            padding: 8px 20px;
+            flex-shrink: 0;
+        }
         
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
@@ -580,6 +615,10 @@
             .navbar {
                 flex-direction: column;
                 gap: 1rem;
+            }
+            .cookie-content {
+                flex-direction: column;
+                text-align: center;
             }
         }
         
@@ -658,7 +697,6 @@
             <h2>My Work</h2>
             <p class="section-subtitle">Here are a couple of public-facing examples of my work. Many of my most powerful solutions are private systems built for specific client operations.</p>
             <div class="portfolio-grid">
-                <!-- NEW: HTML structure simplified -->
                 <div class="portfolio-item">
                     <div class="portfolio-item-content">
                         <h3>EuroLaw - EU Legal Assistant</h3>
@@ -707,7 +745,6 @@
             <p class="section-subtitle">Have a challenge you think AI or automation can solve? Let's talk. Fill out the form below or email me directly at sakissystems@gmail.com.</p>
             <div class="contact-form-wrapper">
                 <form id="contact-form">
-                    <!-- This key is for web3forms.com -->
                     <input type="hidden" name="access_key" value="7fd4e20b-bfc5-4e3e-a8a3-2ec2a96b2f3d">
                     
                     <div class="form-group">
@@ -754,6 +791,13 @@
         </div>
     </div>
 
+    <!-- NEW: Cookie Banner -->
+    <div class="cookie-banner" id="cookie-banner">
+        <div class="container cookie-content">
+            <p>This site uses essential cookies to enhance functionality. By continuing to browse, you agree to our use of cookies.</p>
+            <button class="btn" id="cookie-accept-btn">Got it!</button>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -925,6 +969,33 @@
 
         chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
         sendChatBtn.addEventListener("click", handleUserMessage);
+
+        // --- NEW: Cookie Banner Logic --- //
+        const cookieBanner = document.getElementById('cookie-banner');
+        const cookieAcceptBtn = document.getElementById('cookie-accept-btn');
+
+        const hideCookieBanner = () => {
+            cookieBanner.classList.remove('show');
+            // Use localStorage to remember the user's choice
+            localStorage.setItem('sakisCookieConsent', 'true');
+        };
+
+        // Show banner only if consent has not been given before
+        if (!localStorage.getItem('sakisCookieConsent')) {
+            // Show banner after a 1-second delay
+            setTimeout(() => {
+                cookieBanner.classList.add('show');
+            }, 1000);
+
+            // Automatically hide the banner after 30 seconds
+            setTimeout(() => {
+                if(cookieBanner.classList.contains('show')) {
+                   hideCookieBanner();
+                }
+            }, 30000);
+        }
+
+        cookieAcceptBtn.addEventListener('click', hideCookieBanner);
     });
     </script>
 </body>
