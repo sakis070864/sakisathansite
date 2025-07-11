@@ -378,12 +378,6 @@
             outline: none;
             border-color: var(--primary-color);
         }
-        .contact-form-wrapper .btn {
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
         
         #form-status {
             margin-top: 1rem;
@@ -392,6 +386,63 @@
         }
         .success { color: #28a745; }
         .error { color: #dc3545; }
+
+        /* --- Slide to Send CAPTCHA --- */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background-color: var(--dark-bg);
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            user-select: none;
+            border: 1px solid #0A192F;
+        }
+        .slider-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 25px;
+            transition: width 0.1s;
+        }
+        .slider-handle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .slider-text {
+            color: var(--medium-text);
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+        .slider-container.unlocked .slider-text {
+            opacity: 0;
+        }
+        .slider-container.unlocked .slider-handle {
+            background-color: #28a745;
+            color: white;
+            cursor: default;
+        }
+
 
         /* --- Footer --- */
         footer {
@@ -548,7 +599,7 @@
             background: var(--secondary-color);
         }
 
-        /* --- NEW: Cookie Banner --- */
+        /* --- Cookie Banner --- */
         .cookie-banner {
             position: fixed;
             bottom: 0;
@@ -744,7 +795,7 @@
             <h2>Get in Touch</h2>
             <p class="section-subtitle">Have a challenge you think AI or automation can solve? Let's talk. Fill out the form below or email me directly at sakissystems@gmail.com.</p>
             <div class="contact-form-wrapper">
-                <form id="contact-form">
+                <form id="contact-form" novalidate>
                     <input type="hidden" name="access_key" value="7fd4e20b-bfc5-4e3e-a8a3-2ec2a96b2f3d">
                     
                     <div class="form-group">
@@ -763,7 +814,16 @@
                         <label for="message">How can I help you?</label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn">Send Message</button>
+                    
+                    <!-- "Slide to Send" CAPTCHA -->
+                    <div class="form-group">
+                        <div class="slider-container" id="slider-container">
+                            <div class="slider-track" id="slider-track"></div>
+                            <div class="slider-handle" id="slider-handle"><i class="fa-solid fa-paper-plane"></i></div>
+                            <div class="slider-text">Slide to Send</div>
+                        </div>
+                    </div>
+                    
                     <div id="form-status"></div>
                 </form>
             </div>
@@ -791,7 +851,7 @@
         </div>
     </div>
 
-    <!-- NEW: Cookie Banner -->
+    <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookie-banner">
         <div class="container cookie-content">
             <p>This site uses essential cookies to enhance functionality. By continuing to browse, you agree to our use of cookies.</p>
@@ -817,13 +877,16 @@
             }
         });
 
-        // --- Contact Form Logic (using Web3Forms) --- //
+        // --- Contact Form Logic --- //
         const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const accessKeyInput = form.querySelector('input[name="access_key"]');
+        const sliderContainer = document.getElementById('slider-container');
+        const sliderHandle = document.getElementById('slider-handle');
+        const sliderTrack = document.getElementById('slider-track');
+        
+        // This function handles the actual form submission
+        const submitTheForm = () => {
+             const accessKeyInput = form.querySelector('input[name="access_key"]');
             if (accessKeyInput.value === "YOUR_ACCESS_KEY_HERE") {
                 formStatus.textContent = "Please configure the form access key.";
                 formStatus.className = 'error';
@@ -865,12 +928,100 @@
                 })
                 .then(function() {
                     form.reset();
+                    // FIXED: Reset the slider's visual state after submission
                     setTimeout(() => {
                         formStatus.innerHTML = '';
+                        sliderContainer.classList.remove('unlocked');
+                        sliderHandle.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+                        sliderHandle.style.transition = 'left 0.3s ease, background-color 0.3s ease';
+                        sliderTrack.style.transition = 'width 0.3s ease';
+                        sliderHandle.style.left = '0px';
+                        sliderTrack.style.width = '0px';
                     }, 5000);
                 });
+        };
+
+        // We prevent the default form submission, as it's now handled by the slider
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
         });
+
+        // --- Slide to Send CAPTCHA Logic --- //
+        let isDragging = false;
+        let startX = 0;
+        let offsetX = 0;
+
+        const startDrag = (e) => {
+            if (sliderContainer.classList.contains('unlocked')) return;
+            isDragging = true;
+            startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            sliderHandle.style.transition = 'none';
+            sliderTrack.style.transition = 'none';
+        };
+
+        const onDrag = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            offsetX = currentX - startX;
+
+            const containerWidth = sliderContainer.offsetWidth;
+            const handleWidth = sliderHandle.offsetWidth;
+            const maxOffset = containerWidth - handleWidth;
+
+            // Constrain movement
+            let newLeft = Math.max(0, Math.min(offsetX, maxOffset));
+            sliderHandle.style.left = `${newLeft}px`;
+            sliderTrack.style.width = `${newLeft + handleWidth / 2}px`;
+            
+            // Check for completion
+            if (newLeft >= maxOffset - 5) { // A small tolerance
+                unlockSlider();
+            }
+        };
+
+        const endDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            if (!sliderContainer.classList.contains('unlocked')) {
+                sliderHandle.style.transition = 'left 0.3s ease';
+                sliderTrack.style.transition = 'width 0.3s ease';
+                sliderHandle.style.left = '0px';
+                sliderTrack.style.width = '0px';
+            }
+        };
         
+        const unlockSlider = () => {
+            isDragging = false;
+            sliderContainer.classList.add('unlocked');
+            sliderHandle.innerHTML = '<i class="fa-solid fa-check"></i>';
+            
+            // Check if form is valid before submitting
+            if (form.checkValidity()) {
+                submitTheForm();
+            } else {
+                formStatus.innerHTML = "Please fill out all required fields.";
+                formStatus.className = 'error';
+                // Reset slider if form is invalid
+                setTimeout(() => {
+                    sliderContainer.classList.remove('unlocked');
+                    sliderHandle.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+                    sliderHandle.style.left = '0px';
+                    sliderTrack.style.width = '0px';
+                    formStatus.innerHTML = "";
+                }, 2000);
+            }
+        };
+
+        sliderHandle.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', endDrag);
+        
+        sliderHandle.addEventListener('touchstart', startDrag);
+        document.addEventListener('touchmove', onDrag, { passive: false });
+        document.addEventListener('touchend', endDrag);
+
 
         // --- REWRITTEN CHATBOT SCRIPT FOR STABILITY --- //
         const chatbotToggler = document.querySelector(".chatbot-toggler");
@@ -970,7 +1121,7 @@
         chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
         sendChatBtn.addEventListener("click", handleUserMessage);
 
-        // --- NEW: Cookie Banner Logic --- //
+        // --- Cookie Banner Logic --- //
         const cookieBanner = document.getElementById('cookie-banner');
         const cookieAcceptBtn = document.getElementById('cookie-accept-btn');
 
