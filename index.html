@@ -24,9 +24,9 @@
             /* Dark Blue Color Palette */
             --primary-color: #004080;   /* A strong, professional blue */
             --secondary-color: #0059B3;  /* A slightly brighter blue for gradients */
-            --dark-bg: #0A192F;         /* A very dark navy, almost black */
-            --medium-bg: #172A46;      /* A slightly lighter navy for cards */
-            --light-text: #CCD6F6;      /* A common light text color for dark blue themes */
+            --dark-bg: #0A192F;      /* A very dark navy, almost black */
+            --medium-bg: #172A46;     /* A slightly lighter navy for cards */
+            --light-text: #CCD6F6;     /* A common light text color for dark blue themes */
             --medium-text: #8892B0;     /* A common secondary text color */
             --accent-color: #64FFDA;     /* A popular mint/cyan accent for dark blue themes */
         }
@@ -253,11 +253,14 @@
             gap: 2rem;
         }
         
-        /* NEW: Keyframes for the flowing gradient */
-        @keyframes flowing-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* UPDATED: Keyframes for the lightning effect */
+        @keyframes lightning-border {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .portfolio-item {
@@ -275,19 +278,19 @@
         .portfolio-item::before {
             content: '';
             position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
+            top: -50%; 
+            left: -50%;
+            width: 200%;
+            height: 200%;
             z-index: -1;
-            margin: -2px; /* Match the padding */
-            border-radius: inherit; /* Inherit the border-radius */
-            background: linear-gradient(
-                90deg,
-                var(--primary-color),
+            background: conic-gradient(
+                transparent,
+                transparent,
                 var(--accent-color),
-                var(--secondary-color),
-                var(--primary-color)
+                transparent,
+                transparent
             );
-            background-size: 400% 400%;
-            animation: flowing-gradient 8s ease infinite;
+            animation: lightning-border 4s linear infinite;
         }
         
         .portfolio-item-content {
@@ -610,7 +613,7 @@
     </header>
 
     <section class="hero" id="home">
-        <img src="https://www.toptal.com/designers/subtlepatterns/uploads/double-bubble-outline.png" alt="background" class="hero-background">
+        <img src="https://www.toptal.com/designers/subtlepatterns/uploads/double-bubble-outline.png" alt="background" class="hero-background" onerror="this.style.display='none'">
         <div class="container hero-content">
             <div class="hero-text">
                 <h1>AI Agent & Custom Automation Engineer</h1>
@@ -621,7 +624,7 @@
                 <a href="#contact" class="btn">Get in Touch</a>
             </div>
             <div class="hero-image-wrapper">
-                <img src="https://i.postimg.cc/4y0KF6yr/sakis-manus-oxi-gravara.png" alt="Sakis Athan" class="hero-image">
+                <img src="https://i.postimg.cc/4y0KF6yr/sakis-manus-oxi-gravara.png" alt="Sakis Athan" class="hero-image" onerror="this.onerror=null;this.src='https://placehold.co/280x280/0A192F/FFFFFF?text=Sakis+Athan';">
             </div>
         </div>
     </section>
