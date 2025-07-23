@@ -611,23 +611,21 @@
         
         .chatbot-toggler {
             position: fixed;
-            bottom: 30px;
-            right: 35px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: #fff;
+            bottom: 20px;
+            right: 25px;
+            width: 80px; /* Increased size */
+            height: 80px; /* Increased size */
+            background: transparent; /* Removed background */
             border: none;
-            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
             z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             animation: hop 1.5s infinite ease-in-out;
             transition: transform 0.2s;
+            padding: 0;
+            box-shadow: none; /* Removed shadow */
         }
         
         .chatbot-toggler:hover {
@@ -636,7 +634,7 @@
         
         .chatbot {
             position: fixed;
-            bottom: 100px;
+            bottom: 110px; /* Adjusted position */
             right: 35px;
             width: 420px;
             background: var(--dark-bg);
@@ -993,7 +991,7 @@
     
     <!-- Chatbot Toggler Button -->
     <button class="chatbot-toggler">
-        <i class="fa-solid fa-comment-dots"></i>
+        <img src="https://i.postimg.cc/9fq7sS9Y/video-from-rawpixel-id-17837069-gif.gif" alt="Chatbot Icon" style="width: 100%; height: 100%; object-fit: cover;">
     </button>
     
     <!-- Chatbot Window -->
