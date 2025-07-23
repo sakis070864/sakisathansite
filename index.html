@@ -6,8 +6,8 @@
     
     <!-- SEO Meta Tags -->
     <title>Sakis Athan - AI Agent & Automation Engineer</title>
-    <meta name="description" content="Sakis Athan builds custom AI agents and automation solutions to enhance business efficiency for law firms, shipping companies, and more. Fast, detailed, and uncompromising quality.">
-    <meta name="keywords" content="AI Agent, Automation Engineer, Custom AI Solutions, Business Process Automation, AI for Lawyers, AI for Shipping, Sakis Athan">
+    <meta name="description" content="Sakis Athan builds custom AI agents and automation solutions to enhance business efficiency. Start scoping your project with our intelligent AI assistant.">
+    <meta name="keywords" content="AI Agent, Automation Engineer, Custom AI Solutions, Business Process Automation, AI Project Scoping, Sakis Athan">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,6 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-
     <style>
         /* --- General & Reset --- */
         :root {
@@ -25,10 +24,10 @@
             --primary-color: #004080;   /* A strong, professional blue */
             --secondary-color: #0059B3;  /* A slightly brighter blue for gradients */
             --dark-bg: #0A192F;      /* A very dark navy, almost black */
-            --medium-bg: #172A46;     /* A slightly lighter navy for cards */
-            --light-text: #CCD6F6;     /* A common light text color for dark blue themes */
-            --medium-text: #8892B0;     /* A common secondary text color */
-            --accent-color: #64FFDA;     /* A popular mint/cyan accent for dark blue themes */
+            --medium-bg: #172A46;      /* A slightly lighter navy for cards */
+            --light-text: #CCD6F6;      /* A common light text color for dark blue themes */
+            --medium-text: #8892B0;      /* A common secondary text color */
+            --accent-color: #64FFDA;      /* A popular mint/cyan accent for dark blue themes */
         }
 
         * {
@@ -245,6 +244,152 @@
         .service-card p {
             color: var(--medium-text);
         }
+
+        /* --- NEW: Intelligent Intake Section --- */
+        #intake {
+            background-color: var(--dark-bg);
+        }
+        .intake-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--medium-bg);
+            border-radius: 15px;
+            border: 1px solid #172A46;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .intake-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .intake-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #fff;
+        }
+        .intake-chat-container {
+            padding: 2rem;
+        }
+        .intake-chatbox {
+            height: 450px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            padding-right: 1rem; /* For scrollbar */
+        }
+        .intake-chatbox .chat {
+            display: flex;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .intake-chatbox .chat p {
+            max-width: 85%;
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .intake-chatbox .incoming .icon {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-right: 1rem;
+            align-self: flex-start;
+        }
+        .intake-chatbox .incoming p {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            border-bottom-left-radius: 0;
+        }
+        .intake-chatbox .outgoing {
+            justify-content: flex-end;
+        }
+        .intake-chatbox .outgoing p {
+            background: var(--primary-color);
+            color: #fff;
+            border-bottom-right-radius: 0;
+        }
+        .intake-chatbox .thinking p {
+            font-style: italic;
+            color: var(--medium-text);
+        }
+        .intake-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        .intake-input-area textarea {
+            flex-grow: 1;
+            min-height: 60px;
+            border: 1px solid #0A192F;
+            border-radius: 8px;
+            padding: 1rem;
+            background: var(--dark-bg);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+            outline: none;
+            font-size: 1rem;
+        }
+        .intake-input-area button {
+            width: 60px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            color: var(--dark-bg);
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        .intake-input-area button:hover {
+            background-color: #fff;
+        }
+        .intake-input-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .intake-start-screen {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .intake-start-screen .icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .intake-start-screen p {
+            color: var(--medium-text);
+            margin-bottom: 2rem;
+        }
+        .intake-final-report {
+            padding: 2rem;
+            text-align: center;
+        }
+        .intake-final-report .icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+         .intake-final-report h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .intake-final-report p {
+            color: var(--medium-text);
+            margin-bottom: 0.5rem;
+        }
+        .intake-final-report .case-number {
+            font-weight: 600;
+            color: #fff;
+            background: var(--dark-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
 
         /* --- Portfolio Section --- */
         .portfolio-grid {
@@ -695,6 +840,7 @@
             <div class="logo">Sakis Athan</div>
             <nav>
                 <a href="#services">Services</a>
+                <a href="#intake">Project Intake</a> <!-- NEW LINK -->
                 <a href="#portfolio">My Work</a>
                 <a href="#why-me">Why Me</a>
                 <a href="#contact">Contact</a>
@@ -709,9 +855,9 @@
                 <h1>AI Agent & Custom Automation Engineer</h1>
                 <span class="slogan">AI-Powered Efficiency. Human-Crafted Precision.</span>
                 <p>
-                    I design and build intelligent AI agents and bespoke automation systems for businesses that demand speed, accuracy, and a competitive edge. I work directly with you to understand your needs and deliver solutions that work.
+                    I design and build intelligent AI agents and bespoke automation systems for businesses that demand speed, accuracy, and a competitive edge. Ready to start your project? Let my AI assistant scope it out for you.
                 </p>
-                <a href="#contact" class="btn">Get in Touch</a>
+                <a href="#intake" class="btn">Start Scoping Your Project</a>
             </div>
             <div class="hero-image-wrapper">
                 <img src="https://i.postimg.cc/4y0KF6yr/sakis-manus-oxi-gravara.png" alt="Sakis Athan" class="hero-image" onerror="this.onerror=null;this.src='https://placehold.co/280x280/0A192F/FFFFFF?text=Sakis+Athan';">
@@ -742,6 +888,21 @@
             </div>
         </div>
     </section>
+
+    <!-- NEW INTELLIGENT INTAKE SECTION -->
+    <section id="intake">
+        <div class="container">
+            <div class="intake-wrapper">
+                <div class="intake-header">
+                    <h2>Intelligent Project Intake</h2>
+                </div>
+                <div class="intake-chat-container" id="intake-chat-container">
+                    <!-- This will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END NEW SECTION -->
 
     <section id="portfolio">
         <div class="container">
@@ -865,6 +1026,13 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK (This is a placeholder; server-side logic handles Firebase) -->
+    <script type="module">
+        // This script block is primarily for show and to prevent 404 errors
+        // if you were to include a firebase.js file. The actual Firebase
+        // logic is handled securely on the server.
+    </script>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- Sticky Header --- //
@@ -884,7 +1052,6 @@
         const sliderHandle = document.getElementById('slider-handle');
         const sliderTrack = document.getElementById('slider-track');
         
-        // This function handles the actual form submission
         const submitTheForm = () => {
              const accessKeyInput = form.querySelector('input[name="access_key"]');
             if (accessKeyInput.value === "YOUR_ACCESS_KEY_HERE") {
@@ -928,7 +1095,6 @@
                 })
                 .then(function() {
                     form.reset();
-                    // FIXED: Reset the slider's visual state after submission
                     setTimeout(() => {
                         formStatus.innerHTML = '';
                         sliderContainer.classList.remove('unlocked');
@@ -941,7 +1107,6 @@
                 });
         };
 
-        // We prevent the default form submission, as it's now handled by the slider
         form.addEventListener('submit', (e) => {
             e.preventDefault();
         });
@@ -969,13 +1134,11 @@
             const handleWidth = sliderHandle.offsetWidth;
             const maxOffset = containerWidth - handleWidth;
 
-            // Constrain movement
             let newLeft = Math.max(0, Math.min(offsetX, maxOffset));
             sliderHandle.style.left = `${newLeft}px`;
             sliderTrack.style.width = `${newLeft + handleWidth / 2}px`;
             
-            // Check for completion
-            if (newLeft >= maxOffset - 5) { // A small tolerance
+            if (newLeft >= maxOffset - 5) { 
                 unlockSlider();
             }
         };
@@ -997,13 +1160,11 @@
             sliderContainer.classList.add('unlocked');
             sliderHandle.innerHTML = '<i class="fa-solid fa-check"></i>';
             
-            // Check if form is valid before submitting
             if (form.checkValidity()) {
                 submitTheForm();
             } else {
                 formStatus.innerHTML = "Please fill out all required fields.";
                 formStatus.className = 'error';
-                // Reset slider if form is invalid
                 setTimeout(() => {
                     sliderContainer.classList.remove('unlocked');
                     sliderHandle.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
@@ -1023,15 +1184,15 @@
         document.addEventListener('touchend', endDrag);
 
 
-        // --- REWRITTEN CHATBOT SCRIPT FOR STABILITY --- //
+        // --- General Purpose Chatbot Script --- //
         const chatbotToggler = document.querySelector(".chatbot-toggler");
         const chatInput = document.querySelector(".chat-input textarea");
         const sendChatBtn = document.querySelector(".chat-input #send-btn");
         const chatbox = document.querySelector(".chatbox");
         
-        const API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
+        const GENERAL_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
-        const addMessageToChatbox = (message, classNames) => {
+        const addMessageToGeneralChatbox = (message, classNames) => {
             const chatLi = document.createElement("li");
             classNames.split(' ').forEach(cls => chatLi.classList.add(cls));
             
@@ -1047,31 +1208,26 @@
             chatbox.scrollTo(0, chatbox.scrollHeight);
         }
         
-        const showThinkingIndicator = () => {
-            addMessageToChatbox("<i>AI Assistant is thinking...</i>", "chat incoming thinking");
+        const showGeneralThinkingIndicator = () => {
+            addMessageToGeneralChatbox("<i>AI Assistant is thinking...</i>", "chat incoming thinking");
         }
 
-        const hideThinkingIndicator = () => {
+        const hideGeneralThinkingIndicator = () => {
             const indicator = chatbox.querySelector(".thinking");
             if (indicator) indicator.remove();
         }
 
-        const getBotResponse = async (userMessage) => {
-            showThinkingIndicator();
+        const getGeneralBotResponse = async (userMessage) => {
+            showGeneralThinkingIndicator();
             try {
-                const response = await fetch(API_ENDPOINT, {
+                const response = await fetch(GENERAL_API_ENDPOINT, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: userMessage
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userMessage })
                 });
 
                 const data = await response.json();
-
-                hideThinkingIndicator();
+                hideGeneralThinkingIndicator();
 
                 if (!response.ok) {
                     const serverError = data.error || `The server responded with an unexpected status: ${response.status}.`;
@@ -1082,27 +1238,27 @@
                     ? data.reply 
                     : "Sorry, I received an unexpected response from the server.";
                 
-                addMessageToChatbox(reply, "chat incoming");
+                addMessageToGeneralChatbox(reply, "chat incoming");
 
             } catch (error) {
-                hideThinkingIndicator();
+                hideGeneralThinkingIndicator();
                 const errorMessage = `<strong>Error:</strong><br>${error.message}`;
-                addMessageToChatbox(errorMessage, "chat incoming");
-                console.error('Chatbot Error:', error);
+                addMessageToGeneralChatbox(errorMessage, "chat incoming");
+                console.error('General Chatbot Error:', error);
             }
         }
 
-        const handleUserMessage = () => {
+        const handleGeneralUserMessage = () => {
             const userMessage = chatInput.value.trim();
             if(!userMessage) return;
             
             chatInput.value = "";
             chatInput.style.height = `55px`;
 
-            addMessageToChatbox(userMessage, "chat outgoing");
+            addMessageToGeneralChatbox(userMessage, "chat outgoing");
             
             setTimeout(() => {
-                getBotResponse(userMessage);
+                getGeneralBotResponse(userMessage);
             }, 600);
         }
         
@@ -1114,12 +1270,191 @@
         chatInput.addEventListener("keydown", (e) => {
             if(e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                handleUserMessage();
+                handleGeneralUserMessage();
             }
         });
 
         chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
-        sendChatBtn.addEventListener("click", handleUserMessage);
+        sendChatBtn.addEventListener("click", handleGeneralUserMessage);
+
+
+        // --- NEW: Intelligent Intake Script --- //
+        const intakeContainer = document.getElementById('intake-chat-container');
+        const INTAKE_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/intake"; 
+        let intakeConversationHistory = [];
+        let intakeInProgress = false;
+
+        const renderIntakeUI = () => {
+            if (intakeInProgress) {
+                intakeContainer.innerHTML = `
+                    <div class="intake-chatbox" id="intake-chatbox">
+                        <!-- Messages will be rendered here -->
+                    </div>
+                    <div class="intake-input-area">
+                        <textarea id="intake-textarea" placeholder="Describe your project needs here..." rows="1"></textarea>
+                        <button id="intake-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                `;
+                renderIntakeMessages();
+                setupIntakeListeners();
+            } else {
+                 intakeContainer.innerHTML = `
+                    <div class="intake-start-screen">
+                        <div class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>Ready to build something amazing?</h3>
+                        <p>Let my AI Project Analyst understand your needs. It will ask intelligent questions to perfectly scope your project, and you'll receive a unique case number upon completion.</p>
+                        <button class="btn" id="start-intake-btn">Start Scoping My Project</button>
+                    </div>
+                `;
+                document.getElementById('start-intake-btn').addEventListener('click', startIntake);
+            }
+        };
+
+        const renderIntakeMessages = () => {
+            const chatbox = document.getElementById('intake-chatbox');
+            if (!chatbox) return;
+            chatbox.innerHTML = ''; // Clear existing messages
+            intakeConversationHistory.forEach(msg => {
+                const chatLi = document.createElement("div");
+                chatLi.classList.add("chat", msg.role === 'user' ? 'outgoing' : 'incoming');
+                
+                let messageHTML = '';
+                if (msg.role === 'assistant') {
+                    messageHTML += '<div class="icon"><i class="fa-solid fa-user-astronaut"></i></div>';
+                }
+                messageHTML += `<p>${msg.content}</p>`;
+                
+                chatLi.innerHTML = messageHTML;
+                chatbox.appendChild(chatLi);
+            });
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        };
+
+        const setupIntakeListeners = () => {
+            const sendBtn = document.getElementById('intake-send-btn');
+            const textarea = document.getElementById('intake-textarea');
+
+            sendBtn.addEventListener('click', handleIntakeMessage);
+            textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleIntakeMessage();
+                }
+            });
+             textarea.addEventListener("input", () => {
+                textarea.style.height = `auto`;
+                textarea.style.height = `${textarea.scrollHeight}px`;
+            });
+        };
+
+        const startIntake = () => {
+            intakeInProgress = true;
+            intakeConversationHistory = [{
+                role: 'assistant',
+                content: "Hello! I'm your dedicated AI Project Analyst. To start, please describe the project, automation, or AI agent you have in mind. The more detail, the better!"
+            }];
+            renderIntakeUI();
+        };
+
+        const handleIntakeMessage = () => {
+            const textarea = document.getElementById('intake-textarea');
+            const userMessage = textarea.value.trim();
+            if (!userMessage) return;
+
+            // Add user message to history and re-render
+            intakeConversationHistory.push({ role: 'user', content: userMessage });
+            renderIntakeMessages();
+            
+            textarea.value = '';
+            textarea.style.height = 'auto';
+            document.getElementById('intake-send-btn').disabled = true;
+
+            // Show thinking indicator and call API
+            showIntakeThinkingIndicator();
+            getIntakeBotResponse();
+        };
+
+        const showIntakeThinkingIndicator = () => {
+            const chatbox = document.getElementById('intake-chatbox');
+            if (!chatbox) return;
+            const thinkingLi = document.createElement("div");
+            thinkingLi.classList.add("chat", "incoming", "thinking");
+            thinkingLi.innerHTML = `
+                <div class="icon"><i class="fa-solid fa-user-astronaut"></i></div>
+                <p><i>Analyzing and preparing the next question...</i></p>
+            `;
+            chatbox.appendChild(thinkingLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        };
+
+        const hideIntakeThinkingIndicator = () => {
+            const indicator = document.querySelector("#intake-chatbox .thinking");
+            if (indicator) indicator.remove();
+        };
+
+        const getIntakeBotResponse = async () => {
+            try {
+                const response = await fetch(INTAKE_API_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ conversation: intakeConversationHistory })
+                });
+                
+                hideIntakeThinkingIndicator();
+                const sendBtn = document.getElementById('intake-send-btn');
+                if(sendBtn) sendBtn.disabled = false;
+
+                // FIX: Improved error handling for non-JSON responses
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    try {
+                        const errData = JSON.parse(errorText);
+                        throw new Error(errData.error || 'The server returned a JSON error.');
+                    } catch (e) {
+                         throw new Error(`The server returned an unexpected response (status: ${response.status}). This usually means the API endpoint is not available or has an error.`);
+                    }
+                }
+
+                const data = await response.json();
+
+                if (data.status === 'in-progress') {
+                    intakeConversationHistory.push({ role: 'assistant', content: data.reply });
+                    renderIntakeMessages();
+                } else if (data.status === 'complete') {
+                    showFinalReport(data.caseNumber, data.report);
+                }
+
+            } catch (error) {
+                hideIntakeThinkingIndicator();
+                const sendBtn = document.getElementById('intake-send-btn');
+                if(sendBtn) sendBtn.disabled = false;
+                
+                intakeConversationHistory.push({
+                    role: 'assistant',
+                    content: `<strong>Oops, an error occurred:</strong><br>${error.message}<br><br>Please try rephrasing your last message or refresh the page to start over.`
+                });
+                renderIntakeMessages();
+                console.error('Intake Chatbot Error:', error);
+            }
+        };
+
+        const showFinalReport = (caseNumber, report) => {
+            intakeInProgress = false;
+            intakeContainer.innerHTML = `
+                <div class="intake-final-report">
+                    <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <h3>Project Scoping Complete!</h3>
+                    <p>Thank you. Your project requirements have been analyzed and logged.</p>
+                    <p>A detailed report has been sent to my inbox, and I will be in touch with you shortly.</p>
+                    <p>Your unique reference number is:</p>
+                    <div class="case-number">${caseNumber}</div>
+                </div>
+            `;
+        };
+
+        // Initial render of the intake section
+        renderIntakeUI();
+
 
         // --- Cookie Banner Logic --- //
         const cookieBanner = document.getElementById('cookie-banner');
@@ -1127,18 +1462,14 @@
 
         const hideCookieBanner = () => {
             cookieBanner.classList.remove('show');
-            // Use localStorage to remember the user's choice
             localStorage.setItem('sakisCookieConsent', 'true');
         };
 
-        // Show banner only if consent has not been given before
         if (!localStorage.getItem('sakisCookieConsent')) {
-            // Show banner after a 1-second delay
             setTimeout(() => {
                 cookieBanner.classList.add('show');
             }, 1000);
 
-            // Automatically hide the banner after 30 seconds
             setTimeout(() => {
                 if(cookieBanner.classList.contains('show')) {
                    hideCookieBanner();
