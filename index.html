@@ -245,7 +245,7 @@
             color: var(--medium-text);
         }
 
-        /* --- NEW: Intelligent Intake Section --- */
+        /* --- Intelligent Intake Section --- */
         #intake {
             background-color: var(--dark-bg);
         }
@@ -491,6 +491,9 @@
         }
 
         /* --- Contact Section --- */
+        #contact {
+            padding-bottom: 2rem; /* Reduced padding to make space for partners */
+        }
         .contact-form-wrapper {
             max-width: 700px;
             margin: 0 auto;
@@ -588,13 +591,77 @@
             cursor: default;
         }
 
+        /* --- Partners Section --- */
+        .partners {
+            background-color: var(--dark-bg);
+            padding: 3rem 0;
+            overflow: hidden;
+            position: relative;
+            border-top: 1px solid #172A46;
+            border-bottom: 1px solid #172A46;
+        }
+        .partners h3 {
+            text-align: center;
+            color: var(--medium-text);
+            font-weight: 400;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .scroller {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .scroller__inner {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 4rem; /* Increased gap for logo-only view */
+        }
+        .scroller[data-animated="true"] {
+            overflow: hidden;
+            -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+        .scroller[data-animated="true"] .scroller__inner {
+            width: max-content;
+            flex-wrap: nowrap;
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll {
+            to {
+                transform: translate(calc(-50% - 2rem)); /* Adjusted for new gap */
+            }
+        }
+        .partner-item {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            flex-shrink: 0;
+        }
+        .partner-item img {
+            height: 40px; /* Slightly larger logos */
+            max-width: 150px;
+            width: auto;
+            filter: grayscale(100%) brightness(1.5);
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+        .partner-item:hover img {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+        }
+        .partner-item span {
+           display: none; /* Hide text */
+        }
 
         /* --- Footer --- */
         footer {
             text-align: center;
             padding: 2rem 0;
             background: var(--dark-bg);
-            border-top: 1px solid #172A46;
             color: var(--medium-text);
         }
 
@@ -838,7 +905,7 @@
             <div class="logo">Sakis Athan</div>
             <nav>
                 <a href="#services">Services</a>
-                <a href="#intake">Project Intake</a> <!-- NEW LINK -->
+                <a href="#intake">Project Intake</a>
                 <a href="#portfolio">My Work</a>
                 <a href="#why-me">Why Me</a>
                 <a href="#contact">Contact</a>
@@ -887,7 +954,6 @@
         </div>
     </section>
 
-    <!-- NEW INTELLIGENT INTAKE SECTION -->
     <section id="intake">
         <div class="container">
             <div class="intake-wrapper">
@@ -900,7 +966,6 @@
             </div>
         </div>
     </section>
-    <!-- END NEW SECTION -->
 
     <section id="portfolio">
         <div class="container">
@@ -974,7 +1039,6 @@
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
                     
-                    <!-- "Slide to Send" CAPTCHA -->
                     <div class="form-group">
                         <div class="slider-container" id="slider-container">
                             <div class="slider-track" id="slider-track"></div>
@@ -988,6 +1052,30 @@
             </div>
         </div>
     </section>
+
+    <!-- PARTNERS SECTION UPDATED -->
+    <div class="partners">
+        <h3>Powering Solutions With</h3>
+        <div class="scroller" data-animated="true">
+            <div class="scroller__inner">
+                <div class="partner-item"><img src="https://i.postimg.cc/J7sQzbz2/gemini.jpg" alt="Gemini"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/2SQb55WJ/chatgpt.jpg" alt="ChatGPT"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/MTPj8rBp/perplexity.jpg" alt="Perplexity"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/sfPgSLxQ/render.jpg" alt="Render"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/JzMJZJRm/firebase.jpg" alt="Firebase"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/RZB1dyQk/mongodb.jpg" alt="MongoDB"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/B6M2nnrs/google.jpg" alt="Google"></div>
+                <!-- Duplicate for seamless scroll -->
+                <div class="partner-item"><img src="https://i.postimg.cc/J7sQzbz2/gemini.jpg" alt="Gemini"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/2SQb55WJ/chatgpt.jpg" alt="ChatGPT"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/MTPj8rBp/perplexity.jpg" alt="Perplexity"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/sfPgSLxQ/render.jpg" alt="Render"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/JzMJZJRm/firebase.jpg" alt="Firebase"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/RZB1dyQk/mongodb.jpg" alt="MongoDB"></div>
+                <div class="partner-item"><img src="https://i.postimg.cc/B6M2nnrs/google.jpg" alt="Google"></div>
+            </div>
+        </div>
+    </div>
     
     <!-- Chatbot Toggler Button -->
     <button class="chatbot-toggler">
@@ -1181,7 +1269,6 @@
         const sendChatBtn = document.querySelector(".chat-input #send-btn");
         const chatbox = document.querySelector(".chatbox");
         
-        // NOTE: This API endpoint is for demonstration. In a real scenario, this would point to a live backend.
         const GENERAL_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
         const addMessageToGeneralChatbox = (message, classNames) => {
@@ -1192,7 +1279,7 @@
             if (classNames.includes('outgoing')) {
                 p.textContent = message;
             } else {
-                p.innerHTML = message; // Allow HTML for bot responses
+                p.innerHTML = message;
             }
             
             chatLi.appendChild(p);
@@ -1212,8 +1299,6 @@
         const getGeneralBotResponse = async (userMessage) => {
             showGeneralThinkingIndicator();
             try {
-                // This fetch will likely fail because the backend is not live in this environment.
-                // The catch block will handle this gracefully.
                 const response = await fetch(GENERAL_API_ENDPOINT, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -1236,7 +1321,6 @@
 
             } catch (error) {
                 hideGeneralThinkingIndicator();
-                // Provide a mock response since the API call will fail.
                 const errorMessage = `<strong>Apologies!</strong><br>I'm having trouble connecting to my brain right now. The API endpoint at <code>${GENERAL_API_ENDPOINT}</code> might be offline. Please try again later.`;
                 addMessageToGeneralChatbox(errorMessage, "chat incoming");
                 console.error('General Chatbot Error:', error);
@@ -1273,9 +1357,8 @@
         sendChatBtn.addEventListener("click", handleGeneralUserMessage);
 
 
-        // --- NEW: Intelligent Intake Script --- //
+        // --- Intelligent Intake Script --- //
         const intakeContainer = document.getElementById('intake-chat-container');
-        // NOTE: This API endpoint is for demonstration.
         const INTAKE_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/intake"; 
         let intakeConversationHistory = [];
         let intakeInProgress = false;
@@ -1283,9 +1366,7 @@
         const renderIntakeUI = () => {
             if (intakeInProgress) {
                 intakeContainer.innerHTML = `
-                    <div class="intake-chatbox" id="intake-chatbox">
-                        <!-- Messages will be rendered here -->
-                    </div>
+                    <div class="intake-chatbox" id="intake-chatbox"></div>
                     <div class="intake-input-area">
                         <textarea id="intake-textarea" placeholder="Describe your project needs here..." rows="1"></textarea>
                         <button id="intake-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
@@ -1309,7 +1390,7 @@
         const renderIntakeMessages = () => {
             const chatbox = document.getElementById('intake-chatbox');
             if (!chatbox) return;
-            chatbox.innerHTML = ''; // Clear existing messages
+            chatbox.innerHTML = '';
             intakeConversationHistory.forEach(msg => {
                 const chatLi = document.createElement("div");
                 chatLi.classList.add("chat", msg.role === 'user' ? 'outgoing' : 'incoming');
@@ -1357,7 +1438,6 @@
             const userMessage = textarea.value.trim();
             if (!userMessage) return;
 
-            // Add user message to history and re-render
             intakeConversationHistory.push({ role: 'user', content: userMessage });
             renderIntakeMessages();
             
@@ -1365,7 +1445,6 @@
             textarea.style.height = 'auto';
             document.getElementById('intake-send-btn').disabled = true;
 
-            // Show thinking indicator and call API
             showIntakeThinkingIndicator();
             getIntakeBotResponse();
         };
@@ -1424,13 +1503,11 @@
                 const sendBtn = document.getElementById('intake-send-btn');
                 if(sendBtn) sendBtn.disabled = false;
                 
-                // Provide a mock response for the error
                 intakeConversationHistory.push({
                     role: 'assistant',
                     content: `<strong>Oops, an error occurred:</strong><br>I couldn't connect to the intake server at <code>${INTAKE_API_ENDPOINT}</code>. This is a demonstration, so let's pretend the process is complete!<br><br>If this were a live project, I would have generated a detailed report. For now, here is your case number.`
                 });
                 renderIntakeMessages();
-                // Simulate completion after error
                 setTimeout(() => {
                     showFinalReport('DEMO-12345', 'A summary report would appear here.');
                 }, 4000);
@@ -1453,7 +1530,6 @@
             `;
         };
 
-        // Initial render of the intake section
         renderIntakeUI();
 
 
@@ -1490,6 +1566,25 @@
         }
 
         cookieAcceptBtn.addEventListener('click', hideCookieBanner);
+
+        // --- NEW: Scroller Logic --- //
+        const scrollers = document.querySelectorAll(".scroller");
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            addAnimation();
+        }
+
+        function addAnimation() {
+            scrollers.forEach((scroller) => {
+                scroller.setAttribute("data-animated", true);
+                const scrollerInner = scroller.querySelector(".scroller__inner");
+                const scrollerContent = Array.from(scrollerInner.children);
+                scrollerContent.forEach((item) => {
+                    const duplicatedItem = item.cloneNode(true);
+                    duplicatedItem.setAttribute("aria-hidden", true);
+                    scrollerInner.appendChild(duplicatedItem);
+                });
+            });
+        }
     });
     </script>
 </body>
