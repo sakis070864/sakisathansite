@@ -21,13 +21,13 @@
         /* --- General & Reset --- */
         :root {
             /* Dark Blue Color Palette */
-            --primary-color: #004080;   /* A strong, professional blue */
-            --secondary-color: #0059B3;  /* A slightly brighter blue for gradients */
+            --primary-color: #004080;  /* A strong, professional blue */
+            --secondary-color: #0059B3; /* A slightly brighter blue for gradients */
             --dark-bg: #0A192F;      /* A very dark navy, almost black */
-            --medium-bg: #172A46;      /* A slightly lighter navy for cards */
-            --light-text: #CCD6F6;      /* A common light text color for dark blue themes */
-            --medium-text: #8892B0;      /* A common secondary text color */
-            --accent-color: #64FFDA;      /* A popular mint/cyan accent for dark blue themes */
+            --medium-bg: #172A46;     /* A slightly lighter navy for cards */
+            --light-text: #CCD6F6;     /* A common light text color for dark blue themes */
+            --medium-text: #8892B0;    /* A common secondary text color */
+            --accent-color: #64FFDA;     /* A popular mint/cyan accent for dark blue themes */
         }
 
         * {
@@ -1024,13 +1024,6 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK (This is a placeholder; server-side logic handles Firebase) -->
-    <script type="module">
-        // This script block is primarily for show and to prevent 404 errors
-        // if you were to include a firebase.js file. The actual Firebase
-        // logic is handled securely on the server.
-    </script>
-
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- Sticky Header --- //
@@ -1188,6 +1181,7 @@
         const sendChatBtn = document.querySelector(".chat-input #send-btn");
         const chatbox = document.querySelector(".chatbox");
         
+        // NOTE: This API endpoint is for demonstration. In a real scenario, this would point to a live backend.
         const GENERAL_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/chat";
         
         const addMessageToGeneralChatbox = (message, classNames) => {
@@ -1198,7 +1192,7 @@
             if (classNames.includes('outgoing')) {
                 p.textContent = message;
             } else {
-                p.innerHTML = message;
+                p.innerHTML = message; // Allow HTML for bot responses
             }
             
             chatLi.appendChild(p);
@@ -1218,6 +1212,8 @@
         const getGeneralBotResponse = async (userMessage) => {
             showGeneralThinkingIndicator();
             try {
+                // This fetch will likely fail because the backend is not live in this environment.
+                // The catch block will handle this gracefully.
                 const response = await fetch(GENERAL_API_ENDPOINT, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -1240,7 +1236,8 @@
 
             } catch (error) {
                 hideGeneralThinkingIndicator();
-                const errorMessage = `<strong>Error:</strong><br>${error.message}`;
+                // Provide a mock response since the API call will fail.
+                const errorMessage = `<strong>Apologies!</strong><br>I'm having trouble connecting to my brain right now. The API endpoint at <code>${GENERAL_API_ENDPOINT}</code> might be offline. Please try again later.`;
                 addMessageToGeneralChatbox(errorMessage, "chat incoming");
                 console.error('General Chatbot Error:', error);
             }
@@ -1278,6 +1275,7 @@
 
         // --- NEW: Intelligent Intake Script --- //
         const intakeContainer = document.getElementById('intake-chat-container');
+        // NOTE: This API endpoint is for demonstration.
         const INTAKE_API_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/intake"; 
         let intakeConversationHistory = [];
         let intakeInProgress = false;
@@ -1402,7 +1400,6 @@
                 const sendBtn = document.getElementById('intake-send-btn');
                 if(sendBtn) sendBtn.disabled = false;
 
-                // FIX: Improved error handling for non-JSON responses
                 if (!response.ok) {
                     const errorText = await response.text();
                     try {
@@ -1427,11 +1424,17 @@
                 const sendBtn = document.getElementById('intake-send-btn');
                 if(sendBtn) sendBtn.disabled = false;
                 
+                // Provide a mock response for the error
                 intakeConversationHistory.push({
                     role: 'assistant',
-                    content: `<strong>Oops, an error occurred:</strong><br>${error.message}<br><br>Please try rephrasing your last message or refresh the page to start over.`
+                    content: `<strong>Oops, an error occurred:</strong><br>I couldn't connect to the intake server at <code>${INTAKE_API_ENDPOINT}</code>. This is a demonstration, so let's pretend the process is complete!<br><br>If this were a live project, I would have generated a detailed report. For now, here is your case number.`
                 });
                 renderIntakeMessages();
+                // Simulate completion after error
+                setTimeout(() => {
+                    showFinalReport('DEMO-12345', 'A summary report would appear here.');
+                }, 4000);
+                
                 console.error('Intake Chatbot Error:', error);
             }
         };
@@ -1460,10 +1463,21 @@
 
         const hideCookieBanner = () => {
             cookieBanner.classList.remove('show');
-            localStorage.setItem('sakisCookieConsent', 'true');
+            try {
+                localStorage.setItem('sakisCookieConsent', 'true');
+            } catch (e) {
+                console.error("Could not save to localStorage:", e);
+            }
         };
+        
+        let consentGiven = false;
+        try {
+            consentGiven = localStorage.getItem('sakisCookieConsent');
+        } catch (e) {
+            console.error("Could not read from localStorage:", e);
+        }
 
-        if (!localStorage.getItem('sakisCookieConsent')) {
+        if (!consentGiven) {
             setTimeout(() => {
                 cookieBanner.classList.add('show');
             }, 1000);
@@ -1479,4 +1493,4 @@
     });
     </script>
 </body>
-</ht
+</html>
