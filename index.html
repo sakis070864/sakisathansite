@@ -616,7 +616,7 @@
         .scroller__inner {
             display: flex;
             flex-wrap: nowrap;
-            gap: 4rem; /* Increased gap for logo-only view */
+            gap: 4rem;
         }
         .scroller[data-animated="true"] {
             overflow: hidden;
@@ -626,11 +626,11 @@
         .scroller[data-animated="true"] .scroller__inner {
             width: max-content;
             flex-wrap: nowrap;
-            animation: scroll 60s linear infinite; /* Slower scroll for more logos */
+            animation: scroll 60s linear infinite;
         }
         @keyframes scroll {
             to {
-                transform: translate(calc(-50% - 2rem)); /* Adjusted for new gap */
+                transform: translate(calc(-50% - 2rem));
             }
         }
         .partner-item {
@@ -642,7 +642,7 @@
             flex-shrink: 0;
         }
         .partner-item img {
-            height: 40px; /* Slightly larger logos */
+            height: 40px;
             max-width: 150px;
             width: auto;
             filter: grayscale(100%) brightness(1.5);
@@ -654,7 +654,7 @@
             opacity: 1;
         }
         .partner-item span {
-           display: none; /* Hide text */
+           display: none;
         }
 
         /* --- Footer --- */
@@ -664,24 +664,37 @@
             background: var(--dark-bg);
             color: var(--medium-text);
         }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+        #internal-link {
+            color: var(--medium-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 1px solid var(--medium-text);
+            padding-left: 1rem;
+            transition: color 0.3s;
+        }
+        #internal-link:hover {
+            color: var(--accent-color);
+        }
 
         /* --- Chatbot Widget --- */
         
         @keyframes hop {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
         
         .chatbot-toggler {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 160px; /* Doubled size */
-            height: 160px; /* Doubled size */
+            width: 160px;
+            height: 160px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -701,7 +714,7 @@
         
         .chatbot {
             position: fixed;
-            bottom: 180px; /* Adjusted position */
+            bottom: 180px;
             right: 35px;
             width: 420px;
             background: var(--dark-bg);
@@ -843,6 +856,86 @@
         .cookie-content .btn {
             padding: 8px 20px;
             flex-shrink: 0;
+        }
+
+        /* --- Developer Info Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: var(--medium-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #0A192F;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        .modal-content h3 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--accent-color);
+        }
+        .modal-content .form-group {
+            margin-bottom: 1rem;
+        }
+        .modal-content .btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+        }
+        .modal-content #dev-pass-error {
+            color: #dc3545;
+            text-align: center;
+            margin-top: 1rem;
+            height: 1em;
+        }
+        .dev-info-list {
+            list-style: none;
+            padding: 0;
+        }
+        .dev-info-list li {
+            background-color: var(--dark-bg);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .dev-info-list strong {
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         
         /* --- Responsive Design --- */
@@ -1053,7 +1146,6 @@
         </div>
     </section>
 
-    <!-- PARTNERS SECTION UPDATED -->
     <div class="partners">
         <h3>Powering Solutions With</h3>
         <div class="scroller" data-animated="true">
@@ -1089,20 +1181,14 @@
         </div>
     </div>
     
-    <!-- Chatbot Toggler Button -->
     <button class="chatbot-toggler">
         <img src="https://i.postimg.cc/9fq7sS9Y/video-from-rawpixel-id-17837069-gif.gif" alt="Chatbot Icon" style="width: 100%; height: 100%; object-fit: cover;">
     </button>
     
-    <!-- Chatbot Window -->
     <div class="chatbot">
-        <header>
-            <h2>AI Assistant</h2>
-        </header>
+        <header><h2>AI Assistant</h2></header>
         <ul class="chatbox">
-            <li class="chat incoming">
-                <p>Hi there 👋<br>I'm Sakis's AI Assistant. How can I help you learn about his services today?</p>
-            </li>
+            <li class="chat incoming"><p>Hi there 👋<br>I'm Sakis's AI Assistant. How can I help you learn about his services today?</p></li>
         </ul>
         <div class="chat-input">
             <textarea placeholder="Ask a question..." required></textarea>
@@ -1110,7 +1196,6 @@
         </div>
     </div>
 
-    <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookie-banner">
         <div class="container cookie-content">
             <p>This site uses essential cookies to enhance functionality. By continuing to browse, you agree to our use of cookies.</p>
@@ -1120,9 +1205,53 @@
 
     <footer>
         <div class="container">
-            &copy; 2025 Sakis Athan. All Rights Reserved.
+            <div class="footer-content">
+                <span>&copy; 2025 Sakis Athan. All Rights Reserved.</span>
+                <a href="#" id="internal-link">Internal</a>
+            </div>
         </div>
     </footer>
+
+    <!-- Developer Info Modals -->
+    <div class="modal-overlay" id="dev-password-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="close-pass-modal">&times;</button>
+            <h3>Developer Access</h3>
+            <form id="dev-password-form">
+                <div class="form-group">
+                    <label for="dev-password">Password</label>
+                    <input type="password" id="dev-password" name="dev-password" required>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+                <p id="dev-pass-error"></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="dev-info-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="close-info-modal">&times;</button>
+            <h3>Site Construction Details</h3>
+            <ul class="dev-info-list">
+                <li>
+                    <strong>Frontend Repository:</strong>
+                    <span>sakisathansite (GitHub)</span>
+                </li>
+                 <li>
+                    <strong>Frontend Deployment:</strong>
+                    <span>sakisathan (Netlify)</span>
+                </li>
+                 <li>
+                    <strong>Backend Repository:</strong>
+                    <span>sakis-chatbot-backend (GitHub)</span>
+                </li>
+                 <li>
+                    <strong>Backend Deployment:</strong>
+                    <span>sakis-chatbot-backend (Render)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -1327,7 +1456,7 @@
                 
                 const reply = (data && typeof data.reply === 'string') 
                     ? data.reply 
-                    : "Sorry, I received an unexpected response from the server.";
+                    : "Sorry, I couldn't get a proper response. Please try again.";
                 
                 addMessageToGeneralChatbox(reply, "chat incoming");
 
@@ -1542,6 +1671,7 @@
             `;
         };
 
+        // Initial render of the intake section - THIS LINE WAS MISSING
         renderIntakeUI();
 
 
@@ -1579,7 +1709,7 @@
 
         cookieAcceptBtn.addEventListener('click', hideCookieBanner);
 
-        // --- NEW: Scroller Logic --- //
+        // --- Scroller Logic --- //
         const scrollers = document.querySelectorAll(".scroller");
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             addAnimation();
@@ -1597,6 +1727,64 @@
                 });
             });
         }
+
+        // --- Developer Info Modal Logic --- //
+        const internalLink = document.getElementById('internal-link');
+        const passModal = document.getElementById('dev-password-modal');
+        const infoModal = document.getElementById('dev-info-modal');
+        const closePassModalBtn = document.getElementById('close-pass-modal');
+        const closeInfoModalBtn = document.getElementById('close-info-modal');
+        const passForm = document.getElementById('dev-password-form');
+        const passInput = document.getElementById('dev-password');
+        const passError = document.getElementById('dev-pass-error');
+        const DEV_VERIFY_ENDPOINT = "https://sakis-chatbot-backend.onrender.com/verify-developer";
+
+        internalLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            passModal.classList.add('show');
+        });
+
+        const closeModal = () => {
+            passModal.classList.remove('show');
+            infoModal.classList.remove('show');
+            passInput.value = '';
+            passError.textContent = '';
+        };
+
+        closePassModalBtn.addEventListener('click', closeModal);
+        closeInfoModalBtn.addEventListener('click', closeModal);
+        passModal.addEventListener('click', (e) => {
+            if (e.target === passModal) closeModal();
+        });
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === infoModal) closeModal();
+        });
+
+        passForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = passInput.value;
+            passError.textContent = 'Verifying...';
+
+            try {
+                const response = await fetch(DEV_VERIFY_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: password })
+                });
+
+                if (response.ok) {
+                    passModal.classList.remove('show');
+                    infoModal.classList.add('show');
+                    passInput.value = '';
+                    passError.textContent = '';
+                } else {
+                    passError.textContent = 'Incorrect password.';
+                }
+            } catch (error) {
+                console.error("Error verifying password:", error);
+                passError.textContent = 'An error occurred.';
+            }
+        });
     });
     </script>
 </body>
